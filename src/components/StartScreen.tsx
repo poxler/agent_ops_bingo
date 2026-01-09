@@ -157,18 +157,17 @@ export function StartScreen({ onStart }: StartScreenProps) {
             {/* Primary Button */}
             <button
               onClick={onStart}
-              className="w-full bg-[--color-cyber-cyan] hover:bg-[--color-cyber-magenta] text-[--color-cyber-bg] font-bold py-4 px-8 rounded-lg text-xl font-[--font-orbitron] tracking-wider uppercase transition-all duration-300 relative overflow-hidden group"
+              className="w-full bg-[--color-cyber-cyan] hover:bg-[--color-cyber-magenta] text-[--color-cyber-bg] font-bold py-4 px-8 rounded-lg text-xl font-[--font-orbitron] tracking-wider uppercase transition-all duration-300"
               style={{ boxShadow: 'var(--glow-cyan)' }}
             >
-              <span className="relative z-10">Initiate Mission</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-300" style={{ transform: 'translateX(-100%)', animation: 'none' }} />
+              Initiate Mission
             </button>
 
-            {/* Secondary Link */}
+            {/* Secondary Link - for future rules modal */}
             <div className="mt-4 text-center">
-              <button className="text-sm font-[--font-rajdhani] text-gray-400 hover:text-[--color-cyber-cyan] transition-colors underline">
+              <span className="text-sm font-[--font-rajdhani] text-gray-400 tracking-wider">
                 SYSTEM DIAGNOSTICS
-              </button>
+              </span>
             </div>
           </div>
         </div>
