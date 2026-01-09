@@ -1,13 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { questions } from '../data/questions';
 
 interface StartScreenProps {
   onStart: () => void;
 }
 
+// Constants for timing
+const CAROUSEL_INTERVAL = 4000;
+const SAMPLE_QUESTIONS_COUNT = 6;
+
 export function StartScreen({ onStart }: StartScreenProps) {
   // Select 6 sample questions for the carousel
-  const sampleQuestions = questions.slice(0, 6);
+  const sampleQuestions = useMemo(() => questions.slice(0, SAMPLE_QUESTIONS_COUNT), []);
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -19,7 +23,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
     if (!isPaused) {
       timeoutRef.current = window.setTimeout(() => {
         setCurrentQuestionIndex((prev) => (prev + 1) % sampleQuestions.length);
-      }, 4000);
+      }, CAROUSEL_INTERVAL);
     }
     
     return () => {
@@ -33,7 +37,8 @@ export function StartScreen({ onStart }: StartScreenProps) {
     setCurrentQuestionIndex((prev) => (prev + 1) % sampleQuestions.length);
   };
 
-  const handleDotClick = (index: number) => {
+  const handleDotClick = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation();
     setCurrentQuestionIndex(index);
   };
 
@@ -76,15 +81,12 @@ export function StartScreen({ onStart }: StartScreenProps) {
         <div 
           className="mb-12 opacity-0 animate-[drop-in_0.5s_ease-out_0.4s_forwards]"
         >
-          <h1 
-            className="text-5xl font-bold mb-3 tracking-wider"
-            style={{ fontFamily: 'Orbitron, system-ui, sans-serif' }}
-          >
+          <h1 className="text-5xl font-bold mb-3 tracking-wider font-display">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff00ff] to-[#00ffff]">
               SOC OPS
             </span>
           </h1>
-          <p className="text-xl text-gray-400" style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}>
+          <p className="text-xl text-gray-400 font-body">
             Find. Match. Connect.
           </p>
         </div>
@@ -105,10 +107,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
             }}
           >
             {/* Context Label */}
-            <div 
-              className="text-sm tracking-widest mb-6 text-[#ff00ff] opacity-80"
-              style={{ fontFamily: 'Orbitron, system-ui, sans-serif' }}
-            >
+            <div className="text-sm tracking-widest mb-6 text-[#ff00ff] opacity-80 font-display">
               LOCATE OPERATIVE WHO:
             </div>
 
@@ -121,10 +120,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
                     index === currentQuestionIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 >
-                  <p 
-                    className="text-3xl font-semibold text-white px-4"
-                    style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}
-                  >
+                  <p className="text-3xl font-semibold text-white px-4 font-body">
                     {question}
                   </p>
                 </div>
@@ -136,10 +132,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
               {sampleQuestions.map((_, index) => (
                 <button
                   key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDotClick(index);
-                  }}
+                  onClick={(e) => handleDotClick(e, index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                     index === currentQuestionIndex
                       ? 'bg-[#ff00ff] scale-125 shadow-[0_0_10px_rgba(255,0,255,0.8)]'
@@ -160,7 +153,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
             <div className="flex items-center gap-3 justify-center sm:justify-start">
               <span className="text-2xl">👥</span>
               <div className="text-left">
-                <div className="font-semibold text-sm" style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}>
+                <div className="font-semibold text-sm font-body">
                   Find matches
                 </div>
               </div>
@@ -168,7 +161,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
             <div className="flex items-center gap-3 justify-center sm:justify-start">
               <span className="text-2xl">✓</span>
               <div className="text-left">
-                <div className="font-semibold text-sm" style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}>
+                <div className="font-semibold text-sm font-body">
                   Tap to track
                 </div>
               </div>
@@ -176,7 +169,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
             <div className="flex items-center gap-3 justify-center sm:justify-start">
               <span className="text-2xl">🎯</span>
               <div className="text-left">
-                <div className="font-semibold text-sm" style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}>
+                <div className="font-semibold text-sm font-body">
                   Get 5 in a row
                 </div>
               </div>
@@ -190,15 +183,13 @@ export function StartScreen({ onStart }: StartScreenProps) {
         >
           <button
             onClick={onStart}
-            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#ff00ff] to-[#ff0099] text-white font-bold rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(255,0,255,0.6)]"
-            style={{ fontFamily: 'Orbitron, system-ui, sans-serif' }}
+            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#ff00ff] to-[#ff0099] text-white font-bold rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(255,0,255,0.6)] font-display"
           >
             Start Playing
           </button>
           <button
             onClick={() => setShowAllQuestions(!showAllQuestions)}
-            className="w-full sm:w-auto px-10 py-4 border-2 border-[#00ffff] text-[#00ffff] font-semibold rounded-lg text-lg transition-all duration-300 hover:bg-[#00ffff] hover:text-[#0a0a0f] hover:shadow-[0_0_20px_rgba(0,255,255,0.4)]"
-            style={{ fontFamily: 'Orbitron, system-ui, sans-serif' }}
+            className="w-full sm:w-auto px-10 py-4 border-2 border-[#00ffff] text-[#00ffff] font-semibold rounded-lg text-lg transition-all duration-300 hover:bg-[#00ffff] hover:text-[#0a0a0f] hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] font-display"
           >
             See All Questions ({questions.length})
           </button>
@@ -213,7 +204,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
               {questions.map((question, index) => (
                 <div key={index} className="flex items-start gap-2">
                   <span className="text-[#00ffff] mt-0.5">•</span>
-                  <span style={{ fontFamily: 'Rajdhani, system-ui, sans-serif' }}>{question}</span>
+                  <span className="font-body">{question}</span>
                 </div>
               ))}
             </div>
