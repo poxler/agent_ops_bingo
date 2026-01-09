@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -6,6 +7,25 @@
   --color-marked: #dcfce7;
   --color-marked-border: #22c55e;
   --color-bingo: #fbbf24;
+  
+  /* Cyberpunk colors */
+  --color-cyber-cyan: #00ffff;
+  --color-cyber-magenta: #ff00ff;
+  --color-cyber-pink: #ff0080;
+  --color-cyber-purple: #9d00ff;
+  --color-cyber-red: #ff0040;
+  --color-cyber-bg: #0a0a0f;
+  --color-cyber-bg-card: rgba(10, 10, 30, 0.7);
+  
+  /* Glow shadows */
+  --glow-cyan: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+  --glow-magenta: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  --glow-pink: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
+  --glow-purple: 0 0 10px #9d00ff, 0 0 20px #9d00ff, 0 0 30px #9d00ff;
+  
+  /* Fonts */
+  --font-orbitron: 'Orbitron', system-ui, sans-serif;
+  --font-rajdhani: 'Rajdhani', system-ui, sans-serif;
 }
 
 html,
@@ -18,4 +38,81 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Cyberpunk Animations */
+@keyframes glitch {
+  0%, 100% { 
+    transform: translate(0); 
+    text-shadow: 2px 2px 0 var(--color-cyber-cyan), -2px -2px 0 var(--color-cyber-magenta);
+  }
+  25% { 
+    transform: translate(-2px, 2px); 
+    text-shadow: 3px 0 0 var(--color-cyber-cyan), -3px 0 0 var(--color-cyber-magenta);
+  }
+  50% { 
+    transform: translate(2px, -2px); 
+    text-shadow: 0 3px 0 var(--color-cyber-cyan), 0 -3px 0 var(--color-cyber-magenta);
+  }
+  75% { 
+    transform: translate(-2px, -2px); 
+    text-shadow: -3px 3px 0 var(--color-cyber-cyan), 3px -3px 0 var(--color-cyber-magenta);
+  }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px currentColor, 0 0 40px currentColor; 
+  }
+  50% { 
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, 0 0 80px currentColor; 
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(10px, -10px); }
+  50% { transform: translate(-5px, 10px); }
+  75% { transform: translate(-10px, -5px); }
+}
+
+@keyframes fade-cycle {
+  0%, 100% { opacity: 0; }
+  33%, 66% { opacity: 1; }
+}
+
+@keyframes grid-animate {
+  0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+  100% { transform: perspective(500px) rotateX(60deg) translateY(20px); }
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
